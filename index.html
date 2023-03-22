@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Momentos con E&J || Eventos y Catering</title>
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="shortcut icon" href="images/logo.ico" type="image/x-icon">
+</head>
+
+<body>
+    <header>
+        <img id="logo" src="images/logo.svg" alt="Logo de momentos con E & J">
+        <h1>Eventos y catering</h1>
+    </header>
+    <main>
+        <h2>Elige el tipo de evento</h2>
+        <section>
+            <article class="tarjetaEvento">
+                <h3>Quinceañera</h3>
+                <img src="https://images.pexels.com/photos/5845460/pexels-photo-5845460.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                    alt="Matrimonio">
+            </article>
+            <article class="tarjetaEvento">
+                <h3>Matrimonio</h3>
+                <img src="https://images.pexels.com/photos/1043902/pexels-photo-1043902.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                    alt="Matrimonio">
+            </article>
+            <article class="tarjetaEvento">
+                <h3>Cumpleaños</h3>
+                <img src="https://images.pexels.com/photos/587739/pexels-photo-587739.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                    alt="Matrimonio">
+            </article>
+            <article class="tarjetaEvento">
+                <h3>Grado</h3>
+                <img src="https://images.pexels.com/photos/3171837/pexels-photo-3171837.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                    alt="Matrimonio">
+            </article>
+            <article class="tarjetaEvento">
+                <h3>Baby Shower / Revelación</h3>
+                <img src="https://images.pexels.com/photos/3593437/pexels-photo-3593437.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                    alt="Matrimonio">
+            </article>
+        </section>
+        <h2>Personaliza tu paquete</h2>
+        <section>
+            <article class="tarjetaPersonalizacion">
+                <h3>Logistica</h3>
+                <form>
+                    <label for="cantidadpersonas">Cantidad de invitados:</label>
+                    <input id="cantidadpersonas" type="number">
+                    <label for="personaspormesa">Personas por mesa:</label>
+                    <input id="personaspormesa" type="number">
+                    <label for="sonido">Servicio de sonido:</label>
+                    <input id="sonido" type="checkbox">
+                </form>
+            </article>
+            <article class="tarjetaPersonalizacion">
+                <h3>Catering</h3>
+                <form>
+                    <label for="listaComidas">Buffet:</label>
+                    <select name="listaComidas" id="comida">
+                        <option value=""></option>
+                        <option value="refrigerio">Mañana</option>
+                        <option value="almuerzo">Brunch</option>
+                        <option value="cena">Tarde</option>
+                        <option value="cena">Noche</option>
+                    </select>
+                    <br>
+                    <label for="cocteles">Servicio de coctelería</label>
+                    <input id="cocteles" type="checkbox">
+                </form>
+            </article>
+            <article class="tarjetaPersonalizacion">
+                <h3>Ubicación</h3>
+                <form>
+                    <input type="radio" id="sedeprincipal" name="ubicaciones" value="sedeprincipal" checked>
+                    <label for="sedeprincipal">Sede principal</label>
+                    <br>
+                    <input type="radio" id="sedecampestre" name="ubicaciones" value="sedecampestre" checked>
+                    <label for="sedecampestre">Sede campestre</label>
+                    <br>
+                    <input type="radio" id="direccionpropia" name="ubicaciones" value="direccionpropia" checked>
+                    <label for="direccionpropia">Otro</label>
+                    <br>
+                    <label for="direccion">Ingrese la dirección</label>
+                    <input id="direccion" type="text">
+                </form>
+            </article>
+        </section>
+    </main>
+    <footer>
+        <ul>
+            <li>Contáctanos</li>
+            <li>Redes sociales</li>
+            <li>Acerca de nosotros</li>
+        </ul>
+    </footer>
+    <script src="scripts/main.js"></script>
+</body>
+</html>

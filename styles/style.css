@@ -1,0 +1,51 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+header {
+    display: flex;
+    flex-direction: column;
+}
+
+#logo {
+        height: 200px;
+        width: 200px;
+}
+
+h1,h2,h3 {
+    text-align: center;
+}
+
+main, article, section {
+    display: flex;
+    flex-flow: column wrap;
+    gap: 10px;
+}
+article {
+    width: 300px;
+}
+section {
+    flex-flow: row wrap;
+    justify-content: space-around;
+}
+
+img {
+    width: 300px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.tarjetaEvento {
+    border-radius: 10px;
+	background: #e4d9bc;
+	border: 2px solid rgba(255, 255, 255, 0.1);
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.tarjetaPersonalizacion {
+    border-radius: 10px;
+	background: #93A697;
+	border: 2px solid rgba(255, 255, 255, 0.1);
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
