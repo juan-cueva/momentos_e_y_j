@@ -8,12 +8,27 @@ header {
     flex-direction: column;
 }
 
-#logo {
-        height: 200px;
-        width: 200px;
+body {
+    display: flex;
+    flex-direction: column;
 }
 
-h1,h2,h3 {
+footer, .redesSociales, #seccionRedes {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+}
+
+#seccionRedes {
+    gap: 20px;
+}
+
+#logo {
+    height: 200px;
+    width: 200px;
+}
+
+h1,h2,h3,h4 {
     text-align: center;
 }
 
@@ -45,7 +60,23 @@ img {
 
 .tarjetaPersonalizacion {
     border-radius: 10px;
-	background: #93A697;
-	border: 2px solid rgba(255, 255, 255, 0.1);
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    background: #93A697;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+.logosRedes {
+    width: auto;
+    height: 54px;
+}
+
+ul {
+    list-style: none;
+}
+
+a:link {
+    text-decoration: none;
+}
+
+p {
+    width: 300px;
 }

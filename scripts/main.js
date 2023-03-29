@@ -1,3 +1,4 @@
+
 function Evento(id, nombre, costoBase, ofreceSede) {
     this.id = id;
     this.nombre = nombre;
@@ -44,6 +45,10 @@ const eventos = [
     grado,
     babyShower
 ]
+
+const eventosConSede = eventos.filter((x)=> x.ofreceSede === true);
+let nombresEventosConSede = eventosConSede.map(x=> x.nombre);
+
 
 function generarPrompt(textoPromt, elementos) {
     let eleccionValida = false;
@@ -138,6 +143,20 @@ const ubicaciones = [
     otro
 ]
 
+let textoEventosConSede = '';
+
+
+
+for (let index = 0; index < nombresEventosConSede.length; index++) {
+    if (index === nombresEventosConSede.length-1) {
+        textoEventosConSede += nombresEventosConSede[index] + '. ';
+    } else if (index === nombresEventosConSede.length-2) {
+        textoEventosConSede += nombresEventosConSede[index] + ' y ';
+    } else {
+        textoEventosConSede += nombresEventosConSede[index] + ', ';
+    }
+}
+alert( `Los eventos que ofrecen sede son los siguientes: ${textoEventosConSede}`);
 let ubicacionElegida;
 
 if (eventoElegido.ofreceSede) {
@@ -154,6 +173,9 @@ if (eventoElegido.ofreceSede) {
 }
 sumarPrecioTotal(ubicacionElegida.cargoAdicional);
 
-
-
-alert(`Usted ha elegido las siguientes opciones:\nInvitados: ${cantidadPersonas} \nMesas: ${mesas} \nSonido: ${sonido.toUpperCase()} \nBuffet: ${comidaElegida.nombre} \nCoctelería: ${cocteleria.toUpperCase()} \nUbicación: ` + (ubicacionElegida.id == 3 ? `${ubicacionElegida.direccion}` : `${ubicacionElegida.nombre} en la dirección  ${ubicacionElegida.direccion}`) + `\nEl precio total es de: ${moneda.format(precioTotal)}`);
+Swal.fire({
+    title: 'Precio Total',
+    text: `Usted ha elegido las siguientes opciones:\nInvitados: ${cantidadPersonas} \nMesas: ${mesas} \nSonido: ${sonido.toUpperCase()} \nBuffet: ${comidaElegida.nombre} \nCoctelería: ${cocteleria.toUpperCase()} \nUbicación: ` + (ubicacionElegida.id == 3 ? `${ubicacionElegida.direccion}` : `${ubicacionElegida.nombre} en la dirección  ${ubicacionElegida.direccion}`) + `\nEl precio total es de: ${moneda.format(precioTotal)}`,
+    icon: 'info',
+    confirmButtonText: 'Ok'
+});
