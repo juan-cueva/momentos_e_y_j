@@ -104,6 +104,14 @@ let cocteleria = false;
 let ubicacion;
 let direccion;
 let eventoEstaSeleccionado = false;
+let detallePrecio = [];
+class Precio {
+    constructor(valor, concepto){
+        this.valor = valor;
+        this.concepto = concepto;
+    }
+}
+
 
 function renderizarEventos() {
     let events = document.getElementById("eventos");
@@ -186,7 +194,6 @@ function renderizarEventosBack(tarjetaEvent) {
             }
         }
         evento = eventos[tarjeta];
-        sumarPrecioTotal(evento.costoBase);
         console.log(evento);
         renderizarUbicaciones();
     }
@@ -261,8 +268,10 @@ function guardaDatosInput(e) {
     }
 }
 
-function sumarPrecioTotal(cantidad) {
+function sumarPrecioTotal(cantidad, concepto) {
     precioTotal += cantidad;
+    let precio = new Precio(cantidad, concepto)
+    detallePrecio.push(precio);
 }
 
 function validarInputs() {
@@ -277,15 +286,15 @@ function cotizarEvento() {
     precioTotal = 0;
     seleccionUsuario = [evento, cantidadInvitados, personasPorMesa, sonido, buffet, cocteleria, ubicacion];
     if (validarInputs()) {
-        sumarPrecioTotal(evento.costoBase);
+        sumarPrecioTotal(evento.costoBase, 'Costo base del evento');
         let mesas = Math.ceil(cantidadInvitados / personasPorMesa);
         console.log(mesas);
         if (mesas > 6) {
-            sumarPrecioTotal((mesas - 6) * 10000);
+            sumarPrecioTotal((mesas - 6) * 10000, 'Mesas');
             console.log(precioTotal + 'mesas')
         }
         if (sonido) {
-            sumarPrecioTotal(150000);
+            sumarPrecioTotal(150000, 'Sonido');
             console.log(precioTotal + 'sonido')
         }
         let sobrecargoPersonas;
@@ -293,30 +302,50 @@ function cotizarEvento() {
         cantidadInvitados > 30 ? (sobrecargoPersonas = cantidadInvitados - 30, haySobrecargoPersonas = true) : (sobrecargoPersonas = 0, haySobrecargoPersonas = false);
         if (haySobrecargoPersonas) {
             if (cocteleria) {
-                sumarPrecioTotal(200000+(15000*sobrecargoPersonas));
+                sumarPrecioTotal(200000+(15000*sobrecargoPersonas), 'Coctelería');
                 console.log(precioTotal + 'cocteles')
             }
-            sumarPrecioTotal(buffet.cargoAdicional*sobrecargoPersonas);
+            sumarPrecioTotal(buffet.cargoAdicional*sobrecargoPersonas, 'Comida');
             console.log(precioTotal + 'comida')
         } else {
             if (cocteleria){
-                sumarPrecioTotal(200000);
+                sumarPrecioTotal(200000, 'Coctelería');
                 console.log(precioTotal + 'cocteles')
             }
         }
-        sumarPrecioTotal(ubicacion.cargoAdicional)
+        sumarPrecioTotal(ubicacion.cargoAdicional, evento.ofreceSede ? 'Costo sede': 'Transporte a dirección ingresada' )
         console.log(precioTotal + 'ubicacion')
     localStorage.setItem('totalPrecio', precioTotal);
     localStorage.setItem('seleccionesUsuario', JSON.stringify(seleccionUsuario));
     let tituloModal = document.getElementById("tituloModal");
     tituloModal.textContent = `Cotización para ${evento.nombre}`;
-    let textoModal = document.getElementById("textoModal");
-    textoModal.textContent = `El precio total para tu evento es de: ${moneda.format(localStorage.getItem('totalPrecio'))}`;
+    let tbodyModal = document.getElementById("tbodyModal");
+    html = '';
+    for (let precios of detallePrecio){
+        html += `
+        <tr>
+            <td>${precios.concepto}</td>
+            <td style="text-align:right">${moneda.format(precios.valor)}</td>
+        </tr>
+        `
+    }
+    html += `
+    <tr>
+        <td><b>Total</b></td>
+        <td style="text-align:right"><b>${moneda.format(precioTotal)}</b></td>
+    </tr>
+    `
+    tbodyModal.innerHTML = html;
     }
 }
 renderizarEventos();
 renderizarComidas();
 
+function resetDatos() {
+    precioTotal = 0;
+    seleccionUsuario = [];
+    detallePrecio = [];
+}
 // const eventosConSede = eventos.filter((x) => x.ofreceSede === true);
 // let nombresEventosConSede = eventosConSede.map(x => x.nombre);
 

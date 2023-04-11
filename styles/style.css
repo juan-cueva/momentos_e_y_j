@@ -157,7 +157,7 @@ footer {
     --bs-btn-hover-color: black !important;
     --bs-btn-hover-bg: #e6d6cf !important;
     --bs-btn-hover-border-color: rgba(255, 255, 255, 0.1) !important;
-    --bs-btn-focus-shadow-rgb: 49,132,253 !important;
+    --bs-btn-focus-shadow-rgb: 49, 132, 253 !important;
     --bs-btn-active-color: #fff !important;
     --bs-btn-active-bg: #c7b8b2 !important;
     --bs-btn-active-border-color: rgba(255, 255, 255, 0.1) !important;
@@ -165,4 +165,4 @@ footer {
     --bs-btn-disabled-color: #fff !important;
     --bs-btn-disabled-bg: #0d6efd !important;
     --bs-btn-disabled-border-color: #0d6efd !important;
-  }
+}

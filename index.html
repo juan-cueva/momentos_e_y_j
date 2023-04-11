@@ -109,10 +109,11 @@
             </article>
         </section>
         <section>
-            <button type="button" id="btncotizar" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#modalCotizacion" onclick="cotizarEvento()">Cotizar</button>
+            <button type="button" id="btncotizar" class="btn btn-primary btn-lg" data-bs-toggle="modal"
+                data-bs-target="#modalCotizacion" onclick="cotizarEvento()">Cotizar</button>
         </section>
-
-        <div class="modal fade" id="modalCotizacion" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="modalCotizacion" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -120,10 +121,20 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <p id="textoModal"></p>    
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Concepto</th>
+                                    <th style="text-align: center;" scope="col">Valor</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbodyModal">
+                            </tbody>
+                        </table>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary">Ok</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="resetDatos()">Cerrar</button>
+                        <button type="button" class="btn btn-primary">Contáctanos</button>
                     </div>
                 </div>
             </div>
