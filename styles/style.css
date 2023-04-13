@@ -149,6 +149,10 @@ footer {
     justify-content: space-around !important;
 }
 
+#titulo-toast {
+    font-family: var(--fuente-titulos);
+}
+
 .btn-primary {
     font-family: var(--fuente-titulos) !important;
     --bs-btn-color: black !important;

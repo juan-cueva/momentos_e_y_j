@@ -106,7 +106,7 @@ let direccion;
 let eventoEstaSeleccionado = false;
 let detallePrecio = [];
 class Precio {
-    constructor(valor, concepto){
+    constructor(valor, concepto) {
         this.valor = valor;
         this.concepto = concepto;
     }
@@ -208,6 +208,7 @@ function renderizarEventosBack(tarjetaEvent) {
         <img src="${eventos[tarjeta].img}"
             alt="foto de ${eventos[tarjeta].nombre}">
         `
+        evento = undefined;
         event.innerHTML = html;
         event.classList.toggle("tarjetaHighlighter");
         console.log(events)
@@ -274,6 +275,9 @@ function sumarPrecioTotal(cantidad, concepto) {
     detallePrecio.push(precio);
 }
 
+const toastTrigger = document.getElementById('btncotizar')
+const toastLiveExample = document.getElementById('liveToast')
+
 function validarInputs() {
     let valido = false
     if (seleccionUsuario.length > 0) {
@@ -286,6 +290,8 @@ function cotizarEvento() {
     precioTotal = 0;
     seleccionUsuario = [evento, cantidadInvitados, personasPorMesa, sonido, buffet, cocteleria, ubicacion];
     if (validarInputs()) {
+        let prueba = new bootstrap.Modal(document.getElementById("modalCotizacion"));
+        prueba.show();
         sumarPrecioTotal(evento.costoBase, 'Costo base del evento');
         let mesas = Math.ceil(cantidadInvitados / personasPorMesa);
         console.log(mesas);
@@ -302,44 +308,53 @@ function cotizarEvento() {
         cantidadInvitados > 30 ? (sobrecargoPersonas = cantidadInvitados - 30, haySobrecargoPersonas = true) : (sobrecargoPersonas = 0, haySobrecargoPersonas = false);
         if (haySobrecargoPersonas) {
             if (cocteleria) {
-                sumarPrecioTotal(200000+(15000*sobrecargoPersonas), 'Coctelería');
+                sumarPrecioTotal(200000 + (15000 * sobrecargoPersonas), 'Coctelería');
                 console.log(precioTotal + 'cocteles')
             }
-            sumarPrecioTotal(buffet.cargoAdicional*sobrecargoPersonas, 'Comida');
+            sumarPrecioTotal(buffet.cargoAdicional * sobrecargoPersonas, 'Comida');
             console.log(precioTotal + 'comida')
         } else {
-            if (cocteleria){
+            if (cocteleria) {
                 sumarPrecioTotal(200000, 'Coctelería');
                 console.log(precioTotal + 'cocteles')
             }
         }
-        sumarPrecioTotal(ubicacion.cargoAdicional, evento.ofreceSede ? 'Costo sede': 'Transporte a dirección ingresada' )
+        sumarPrecioTotal(ubicacion.cargoAdicional, evento.ofreceSede ? 'Costo sede' : 'Transporte a dirección ingresada')
         console.log(precioTotal + 'ubicacion')
-    localStorage.setItem('totalPrecio', precioTotal);
-    localStorage.setItem('seleccionesUsuario', JSON.stringify(seleccionUsuario));
-    let tituloModal = document.getElementById("tituloModal");
-    tituloModal.textContent = `Cotización para ${evento.nombre}`;
-    let tbodyModal = document.getElementById("tbodyModal");
-    html = '';
-    for (let precios of detallePrecio){
-        html += `
+        localStorage.setItem('totalPrecio', precioTotal);
+        localStorage.setItem('seleccionesUsuario', JSON.stringify(seleccionUsuario));
+        let tituloModal = document.getElementById("tituloModal");
+        tituloModal.textContent = `Cotización para ${evento.nombre}`;
+        let tbodyModal = document.getElementById("tbodyModal");
+        html = '';
+        for (let precios of detallePrecio) {
+            html += `
         <tr>
             <td>${precios.concepto}</td>
             <td style="text-align:right">${moneda.format(precios.valor)}</td>
         </tr>
         `
-    }
-    html += `
+        }
+        html += `
     <tr>
         <td><b>Total</b></td>
         <td style="text-align:right"><b>${moneda.format(precioTotal)}</b></td>
     </tr>
     `
-    tbodyModal.innerHTML = html;
+        tbodyModal.innerHTML = html;
+    }
+}
+
+function abrirToast(){
+    console.log('eventos')
+    if(!validarInputs()){
+        const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample);
+        toastBootstrap.show();
     }
 }
 renderizarEventos();
 renderizarComidas();
+toastTrigger.addEventListener('click', abrirToast);
 
 function resetDatos() {
     precioTotal = 0;

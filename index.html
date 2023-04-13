@@ -53,6 +53,9 @@
                 <form id="logistica">
                     <label class="etiqueta" for="cantidadinvitados" class="form-label">Cantidad de invitados:</label>
                     <input id="cantidadinvitados" class="form-control" onchange="guardaDatosInput(this)" type="number">
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
                     <label class="etiqueta" for="personaspormesa" class="form-label">Personas por mesa:</label>
                     <input id="personaspormesa" class="form-control" onchange="guardaDatosInput(this)" type="number">
                     <label class="etiqueta" for="sonido" class="form-label">Servicio de sonido:</label>
@@ -109,8 +112,8 @@
             </article>
         </section>
         <section>
-            <button type="button" id="btncotizar" class="btn btn-primary btn-lg" data-bs-toggle="modal"
-                data-bs-target="#modalCotizacion" onclick="cotizarEvento()">Cotizar</button>
+            <button type="button" id="btncotizar" class="btn btn-primary btn-lg"
+                onclick="cotizarEvento()">Cotizar</button>
         </section>
         <div class="modal fade" id="modalCotizacion" tabindex="-1" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
@@ -133,9 +136,21 @@
                         </table>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="resetDatos()">Cerrar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                            onclick="resetDatos()">Cerrar</button>
                         <button type="button" class="btn btn-primary">Contáctanos</button>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div class="toast-container position-fixed bottom-0 end-0 p-3">
+            <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong id="titulo-toast" class="me-auto">Alerta</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    Debes llenar los campos obligatorios(*)
                 </div>
             </div>
         </div>
