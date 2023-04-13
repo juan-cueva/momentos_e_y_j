@@ -20,31 +20,6 @@
     <main>
         <h2>Elige el tipo de evento</h2>
         <section id="eventos">
-            <!-- <article class="tarjetaEvento">
-                <h3>Quinceañera</h3>
-                <img src="https://images.pexels.com/photos/5845460/pexels-photo-5845460.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                    alt="Matrimonio">
-            </article>
-            <article class="tarjetaEvento">
-                <h3>Matrimonio</h3>
-                <img src="https://images.pexels.com/photos/1043902/pexels-photo-1043902.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                    alt="Matrimonio">
-            </article>
-            <article class="tarjetaEvento">
-                <h3>Cumpleaños</h3>
-                <img src="https://images.pexels.com/photos/587739/pexels-photo-587739.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                    alt="Matrimonio">
-            </article>
-            <article class="tarjetaEvento">
-                <h3>Grado</h3>
-                <img src="https://images.pexels.com/photos/3171837/pexels-photo-3171837.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                    alt="Matrimonio">
-            </article>
-            <article class="tarjetaEvento">
-                <h3>Baby Shower / Revelación</h3>
-                <img src="https://images.pexels.com/photos/3593437/pexels-photo-3593437.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                    alt="Matrimonio">
-            </article> -->
         </section>
         <h2>Personaliza tu Evento</h2>
         <section>
@@ -68,11 +43,6 @@
                 <form id="catering">
                     <label class="etiqueta" for="listaComidas" class="form-label">Buffet:</label>
                     <select name="listaComidas" id="buffet" onchange="guardaDatosInput(this)" class="form-select">
-                        <!-- <option value=""></option>
-                        <option value="mañana">Mañana</option>
-                        <option value="brunch">Brunch</option>
-                        <option value="tarde">Tarde</option>
-                        <option value="noche">Noche</option> -->
                     </select>
                     <label class="etiqueta" for="cocteles" class="form-label">Servicio de coctelería: </label>
                     <input id="cocteleria" class="form-check-input" onchange="guardaDatosInput(this)" type="checkbox">
@@ -81,33 +51,8 @@
             <article class="tarjetaPersonalizacion">
                 <h3>Ubicación</h3>
                 <div id="ubicacion" onchange="guardaDatosInput(this)">
-                    <!-- <div class="form-check form-check-inline">
-                        <label class="form-check-label" for="inlineRadio1">Sede principal</label>
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
-                            value="option1">
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <label class="form-check-label" for="inlineRadio2">Sede campestre</label>
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
-                            value="option2">
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <label class="form-check-label" for="inlineRadio3">Otra</label>
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3"
-                            value="option3">
-                    </div> -->
                 </div>
-                <!-- <form id="ubicacion" onchange="guardaDatosInput(this)">
-                    <label class="etiqueta" for="sedeprincipal">Sede principal: </label>
-                    <input type="radio" id="sedeprincipal" name="ubicaciones" value="sedeprincipal" checked>
-                    <label class="etiqueta" for="sedecampestre">Sede campestre: </label>
-                    <input type="radio" id="sedecampestre" name="ubicaciones" value="sedecampestre" >
-                    <label class="etiqueta" for="direccionpropia">Otro: </label>
-                    <input type="radio" id="direccionpropia" name="ubicaciones" value="direccionpropia" >
-                </form> -->
                 <div id="inputdireccion">
-                    <!-- <label class="etiqueta form-label"  for="direccion">Ingresa la dirección: </label>
-                <input id="direccion" class="form-control" type="text"> -->
                 </div>
             </article>
         </section>
@@ -150,7 +95,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
                 </div>
                 <div class="toast-body">
-                    Debes llenar los campos obligatorios(*)
+                    Debes llenar todos los campos
                 </div>
             </div>
         </div>
@@ -185,7 +130,6 @@
                 nuestros clientes y crear momentos inolvidables.</p>
         </div>
     </footer>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
         crossorigin="anonymous"></script>

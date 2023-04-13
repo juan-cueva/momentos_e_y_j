@@ -1,89 +1,36 @@
-const eventos = [
-    {
-        "id": 1,
-        "nombre": "Quinceañero",
-        "costoBase": 450000,
-        "img": "https://images.pexels.com/photos/5845460/pexels-photo-5845460.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-        "texto": "¡Celebra tus 15 años como una verdadera princesa! Déjanos hacer realidad tus sueños y transformar tu quinceañera en un cuento de hadas.",
-        "ofreceSede": true
-    },
-    {
-        "id": 2,
-        "nombre": "Matrimonio",
-        "costoBase": 800000,
-        "img": "https://images.pexels.com/photos/1043902/pexels-photo-1043902.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-        "texto": "El día de tu boda es uno de los momentos más importantes de tu vida. Déjanos ser parte de tu historia de amor y hacer de tu boda un día mágico y lleno de emociones.",
-        "ofreceSede": false
-    },
-    {
-        "id": 3,
-        "nombre": "Cumpleaños",
-        "costoBase": 200000,
-        "img": "https://images.pexels.com/photos/587739/pexels-photo-587739.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-        "texto": "¡Celebra tu cumpleaños con nosotros y vive una fiesta inolvidable! Déjanos ser parte de tu celebración y hacer de tu cumpleaños un día inolvidable.",
-        "ofreceSede": true
-    },
-    {
-        "id": 4,
-        "nombre": "Grado",
-        "costoBase": 300000,
-        "img": "https://images.pexels.com/photos/3171837/pexels-photo-3171837.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-        "texto": "¡Felicitaciones por tu graduación! Este es un momento importante y emocionante en tu vida. Déjanos hacer realidad tus sueños y celebrar juntos este logro tan importante.",
-        "ofreceSede": false
-    },
-    {
-        "id": 5,
-        "nombre": "Baby Shower",
-        "costoBase": 250000,
-        "img": "https://images.pexels.com/photos/3593437/pexels-photo-3593437.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-        "texto": "¡Celebra la llegada de tu bebé con una fiesta inolvidable! Déjanos ser parte de este momento tan especial en tu vida y hacer de tu baby shower o fiesta de revelación un día inolvidable.",
-        "ofreceSede": true
-    }
-];
+let comidas = [];
+let ubicaciones = [];
+let eventos = [];
+let eventoEstaSeleccionado = false;
 
-const ubicaciones = [
-    {
-        "id": 1,
-        "nombre": "Sede Principal",
-        "direccion": "Carrera 45 #26-7",
-        "cargoAdicional": 0
-    },
-    {
-        "id": 2,
-        "nombre": "Sede Campestre",
-        "direccion": "Carrera 7 #230-23",
-        "cargoAdicional": 200000
-    },
-    {
-        "id": 3,
-        "nombre": "Otro lugar",
-        "direccion": "",
-        "cargoAdicional": 300000
+async function obtenerDatos(seccion, url) {
+    try {
+        const response = await fetch(url);
+        const datos = await response.json();
+        switch (seccion) {
+            case 'datosEventos':
+                eventos = datos;
+                renderizarEventos();
+                break;
+            case 'datosComidas':
+                comidas = datos;
+                renderizarComidas();
+                break;
+            case 'datosUbicaciones':
+                ubicaciones = datos;
+                renderizarUbicaciones();
+            default:
+                break;
+        }
+        return datos;
+    } catch (error) {
+        console.error('Error trayendo datos:', error);
     }
-]
+}
 
-const comidas = [
-    {
-        "id": 1,
-        "nombre": "Mañana",
-        "cargoAdicional": 25000
-    },
-    {
-        "id": 2,
-        "nombre": "Brunch",
-        "cargoAdicional": 26000
-    },
-    {
-        "id": 3,
-        "nombre": "Tarde",
-        "cargoAdicional": 30000
-    },
-    {
-        "id": 4,
-        "nombre": "Noche",
-        "cargoAdicional": 28000
-    }
-]
+obtenerDatos('datosEventos','https://6424c8169e0a30d92b228961.mockapi.io/momento/eventos');
+obtenerDatos('datosComidas','https://6424c8169e0a30d92b228961.mockapi.io/momento/comidas');
+obtenerDatos('datosUbicaciones', 'https://64387f674660f26eb19da747.mockapi.io/momentos2/ubicaciones');
 
 const configuracionFormato = {
     style: 'currency',
@@ -103,7 +50,6 @@ let buffet;
 let cocteleria = false;
 let ubicacion;
 let direccion;
-let eventoEstaSeleccionado = false;
 let detallePrecio = [];
 class Precio {
     constructor(valor, concepto) {
@@ -145,6 +91,8 @@ function renderizarUbicaciones() {
     let locacion = document.getElementById("ubicacion");
     let html = "";
     if (!eventoEstaSeleccionado || (evento !== undefined && evento.ofreceSede)) {
+        console.log('es')
+        console.log(ubicaciones)
         for (let ubi of ubicaciones) {
             html += `<div class="form-check form-check-inline">
                     <label class="form-check-label">${ubi.nombre}</label>
@@ -223,6 +171,8 @@ function renderizarEventosBack(tarjetaEvent) {
     console.log(clicked)
 }
 
+
+
 function renderizarComidas() {
     let buffet = document.getElementById("buffet");
     let html = `<option value=""></option>`;
@@ -230,7 +180,10 @@ function renderizarComidas() {
         html += `<option value="${comida.id}">${comida.nombre}</option>`
     }
     buffet.innerHTML = html;
+    console.log(comidas)
 }
+
+
 
 function guardaDatosInput(e) {
     switch (e.id) {
@@ -345,15 +298,14 @@ function cotizarEvento() {
     }
 }
 
-function abrirToast(){
+function abrirToast() {
     console.log('eventos')
-    if(!validarInputs()){
+    if (!validarInputs()) {
         const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample);
         toastBootstrap.show();
     }
 }
-renderizarEventos();
-renderizarComidas();
+
 toastTrigger.addEventListener('click', abrirToast);
 
 function resetDatos() {
@@ -361,129 +313,3 @@ function resetDatos() {
     seleccionUsuario = [];
     detallePrecio = [];
 }
-// const eventosConSede = eventos.filter((x) => x.ofreceSede === true);
-// let nombresEventosConSede = eventosConSede.map(x => x.nombre);
-
-// function generarPrompt(textoPromt, elementos) {
-//     let eleccionValida = false;
-//     let eleccion;
-//     while (!eleccionValida) {
-//         let input = parseInt(prompt(textoPromt).trim());
-//         for (let el of elementos) {
-//             if (input === el.id) {
-//                 eleccion = el;
-//                 eleccionValida = true;
-//             }
-//         }
-//         if (input === undefined) {
-//             eleccionValida = false;
-//         }
-//     }
-//     return eleccion;
-// }
-
-// function sumarPrecioTotal(cantidad) {
-//     precioTotal += cantidad;
-// }
-
-// const eventoElegido = generarPrompt("Ingrese el tipo de evento que quiere cotizar: \n 1. Quinceañero \n 2. Matrimonio \n 3. Cumpleaños \n 4. Grado \n 5. Baby Shower", eventos);
-// console.log(eventoElegido);
-
-// alert(`Usted eligió: ${eventoElegido.nombre}. \nEl costo base para este evento incluyendo 30 invitados (6 mesas) es de: ${moneda.format(eventoElegido.costoBase)} `);
-
-// sumarPrecioTotal(eventoElegido.costoBase);
-
-// const cantidadPersonas = parseInt(prompt("Ingresa la cantidad de personas que asistiran al evento"));
-
-// let sobrecargoPersonas;
-// let haySobrecargoPersonas;
-
-// if (cantidadPersonas > 30) {
-//     sobrecargoPersonas = cantidadPersonas - 30;
-//     haySobrecargoPersonas = true;
-// } else {
-//     sobrecargoPersonas = 1;
-//     haySobrecargoPersonas = false;
-// }
-// console.log(sobrecargoPersonas)
-
-// // const personasPorMesa = parseInt(prompt("Ingresa la cantidad de personas que desea por mesa"));
-
-// const mesas = Math.ceil(cantidadPersonas / personasPorMesa);
-
-// if (mesas > 6) {
-//     sumarPrecioTotal((mesas - 6) * 10000);
-// }
-
-// // let sonido = prompt("¿Desea que proporcionemos el servicio de sonido en el evento?").toUpperCase().trim();
-// while (sonido !== "SI" && sonido !== "SÍ" && sonido !== "NO") {
-//     sonido = prompt("¿Desea que proporcionemos el servicio de sonido en el evento?").toUpperCase().trim();
-// };
-
-// if (sonido === "SI" || sonido === "SÍ") {
-//     sumarPrecioTotal(250000);
-// } else {
-//     sonido = "NO";
-// }
-
-// // const comidas = [
-// //     new Comida(1, 'Mañana', (haySobrecargoPersonas ? (25000 * sobrecargoPersonas) : 0)),
-// //     new Comida(2, 'Brunch', (haySobrecargoPersonas ? (26000 * sobrecargoPersonas) : 0)),
-// //     new Comida(3, 'Tarde', (haySobrecargoPersonas ? (30000 * sobrecargoPersonas) : 0)),
-// //     new Comida(4, 'Noche', (haySobrecargoPersonas ? (28000 * sobrecargoPersonas) : 0))
-// // ]
-
-
-// const comidaElegida = generarPrompt("Seleccione el buffet: \n1. Mañana\n2. Brunch\n3. Tarde\n4. Noche", comidas);
-
-// sumarPrecioTotal(comidaElegida.cargoAdicional);
-
-// // let cocteleria = prompt("¿Desea que proporcionemos el servicio de coctelería?").toUpperCase().trim();
-// while (cocteleria !== "SI" && cocteleria !== "SÍ" && cocteleria !== "NO") {
-//     cocteleria = prompt("¿Desea que proporcionemos el servicio de cocteleria en el evento?").toUpperCase().trim();
-// };
-
-// if (cocteleria === "SI" || cocteleria === "SÍ") {
-//     if (haySobrecargoPersonas) {
-//         sumarPrecioTotal(15000 * sobrecargoPersonas);
-//     }
-// } else {
-//     cocteleria = "NO";
-// }
-
-// let textoEventosConSede = '';
-
-
-
-// for (let index = 0; index < nombresEventosConSede.length; index++) {
-//     if (index === nombresEventosConSede.length - 1) {
-//         textoEventosConSede += nombresEventosConSede[index] + '. ';
-//     } else if (index === nombresEventosConSede.length - 2) {
-//         textoEventosConSede += nombresEventosConSede[index] + ' y ';
-//     } else {
-//         textoEventosConSede += nombresEventosConSede[index] + ', ';
-//     }
-// }
-// alert(`Los eventos que ofrecen sede son los siguientes: ${textoEventosConSede}`);
-// let ubicacionElegida;
-
-// if (eventoElegido.ofreceSede) {
-//     ubicacionElegida = generarPrompt("Seleccione en donde se llevará a cabo : \n1. Sede principal\n2. Sede campestre\n3. Otro", ubicaciones);
-//     console.log(ubicacionElegida);
-
-//     if (ubicacionElegida.id === 3) {
-//         ubicacionElegida.direccion = prompt("Ingrese la dirección del lugar");
-//     }
-// } else {
-//     ubicacionElegida = ubicaciones.find(x => x.id === 3);
-//     console.log(ubicacionElegida);
-//     ubicacionElegida.direccion = prompt("Ingrese la dirección del lugar");
-// }
-// sumarPrecioTotal(ubicacionElegida.cargoAdicional);
-
-// Swal.fire({
-//     title: 'Precio Total',
-//     text: `Usted ha elegido las siguientes opciones:\nInvitados: ${cantidadPersonas} \nMesas: ${mesas} \nSonido: ${sonido.toUpperCase()} \nBuffet: ${comidaElegida.nombre} \nCoctelería: ${cocteleria.toUpperCase()} \nUbicación: ` + (ubicacionElegida.id == 3 ? `${ubicacionElegida.direccion}` : `${ubicacionElegida.nombre} en la dirección  ${ubicacionElegida.direccion}`) + `\nEl precio total es de: ${moneda.format(precioTotal)}`,
-//     icon: 'info',
-//     confirmButtonText: 'Ok'
-// });
