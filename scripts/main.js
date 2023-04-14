@@ -1,7 +1,34 @@
+const configuracionFormato = {
+    style: 'currency',
+    currency: 'COP',
+    minimumFractionDigits: 0
+}
+let moneda = new Intl.NumberFormat('es-CO', configuracionFormato);
 let comidas = [];
 let ubicaciones = [];
 let eventos = [];
 let eventoEstaSeleccionado = false;
+let clicked = false;
+let evento;
+let seleccionUsuario = [];
+let precioTotal = 0;
+let cantidadInvitados;
+let personasPorMesa;
+let sonido = false;
+let buffet;
+let cocteleria = false;
+let ubicacion;
+let direccion;
+let detallePrecio = [];
+let modalCotizacion = new bootstrap.Modal(document.getElementById("modalCotizacion"));
+let modalContacto = new bootstrap.Modal(document.getElementById("modalContacto"));
+
+class Precio {
+    constructor(valor, concepto) {
+        this.valor = valor;
+        this.concepto = concepto;
+    }
+}
 
 async function obtenerDatos(seccion, url) {
     try {
@@ -28,36 +55,9 @@ async function obtenerDatos(seccion, url) {
     }
 }
 
-obtenerDatos('datosEventos','https://6424c8169e0a30d92b228961.mockapi.io/momento/eventos');
-obtenerDatos('datosComidas','https://6424c8169e0a30d92b228961.mockapi.io/momento/comidas');
+obtenerDatos('datosEventos', 'https://6424c8169e0a30d92b228961.mockapi.io/momento/eventos');
+obtenerDatos('datosComidas', 'https://6424c8169e0a30d92b228961.mockapi.io/momento/comidas');
 obtenerDatos('datosUbicaciones', 'https://64387f674660f26eb19da747.mockapi.io/momentos2/ubicaciones');
-
-const configuracionFormato = {
-    style: 'currency',
-    currency: 'COP',
-    minimumFractionDigits: 0
-}
-moneda = new Intl.NumberFormat('es-CO', configuracionFormato);
-
-let clicked = false;
-let evento;
-let seleccionUsuario = [];
-let precioTotal = 0;
-let cantidadInvitados;
-let personasPorMesa;
-let sonido = false;
-let buffet;
-let cocteleria = false;
-let ubicacion;
-let direccion;
-let detallePrecio = [];
-class Precio {
-    constructor(valor, concepto) {
-        this.valor = valor;
-        this.concepto = concepto;
-    }
-}
-
 
 function renderizarEventos() {
     let events = document.getElementById("eventos");
@@ -91,8 +91,6 @@ function renderizarUbicaciones() {
     let locacion = document.getElementById("ubicacion");
     let html = "";
     if (!eventoEstaSeleccionado || (evento !== undefined && evento.ofreceSede)) {
-        console.log('es')
-        console.log(ubicaciones)
         for (let ubi of ubicaciones) {
             html += `<div class="form-check form-check-inline">
                     <label class="form-check-label">${ubi.nombre}</label>
@@ -142,7 +140,6 @@ function renderizarEventosBack(tarjetaEvent) {
             }
         }
         evento = eventos[tarjeta];
-        console.log(evento);
         renderizarUbicaciones();
     }
     else {
@@ -159,7 +156,6 @@ function renderizarEventosBack(tarjetaEvent) {
         evento = undefined;
         event.innerHTML = html;
         event.classList.toggle("tarjetaHighlighter");
-        console.log(events)
         for (let evento of events) {
             if (evento.id !== tarjetaEvent.id) {
                 evento.classList.remove
@@ -168,7 +164,6 @@ function renderizarEventosBack(tarjetaEvent) {
         }
         renderizarUbicaciones();
     }
-    console.log(clicked)
 }
 
 
@@ -180,7 +175,6 @@ function renderizarComidas() {
         html += `<option value="${comida.id}">${comida.nombre}</option>`
     }
     buffet.innerHTML = html;
-    console.log(comidas)
 }
 
 
@@ -189,7 +183,6 @@ function guardaDatosInput(e) {
     switch (e.id) {
         case 'cantidadinvitados':
             cantidadInvitados = parseInt(e.value);
-            console.log(cantidadInvitados)
             break;
         case 'personaspormesa':
             personasPorMesa = parseInt(e.value);
@@ -199,7 +192,6 @@ function guardaDatosInput(e) {
             break;
         case 'buffet':
             buffet = comidas.find((x) => (x.id === parseInt(e.value)));
-            console.log(buffet)
             break;
         case 'cocteleria':
             cocteleria = e.checked;
@@ -243,18 +235,14 @@ function cotizarEvento() {
     precioTotal = 0;
     seleccionUsuario = [evento, cantidadInvitados, personasPorMesa, sonido, buffet, cocteleria, ubicacion];
     if (validarInputs()) {
-        let prueba = new bootstrap.Modal(document.getElementById("modalCotizacion"));
-        prueba.show();
+        modalCotizacion.show();
         sumarPrecioTotal(evento.costoBase, 'Costo base del evento');
         let mesas = Math.ceil(cantidadInvitados / personasPorMesa);
-        console.log(mesas);
         if (mesas > 6) {
             sumarPrecioTotal((mesas - 6) * 10000, 'Mesas');
-            console.log(precioTotal + 'mesas')
         }
         if (sonido) {
             sumarPrecioTotal(150000, 'Sonido');
-            console.log(precioTotal + 'sonido')
         }
         let sobrecargoPersonas;
         let haySobrecargoPersonas;
@@ -262,18 +250,14 @@ function cotizarEvento() {
         if (haySobrecargoPersonas) {
             if (cocteleria) {
                 sumarPrecioTotal(200000 + (15000 * sobrecargoPersonas), 'Coctelería');
-                console.log(precioTotal + 'cocteles')
             }
             sumarPrecioTotal(buffet.cargoAdicional * sobrecargoPersonas, 'Comida');
-            console.log(precioTotal + 'comida')
         } else {
             if (cocteleria) {
                 sumarPrecioTotal(200000, 'Coctelería');
-                console.log(precioTotal + 'cocteles')
             }
         }
         sumarPrecioTotal(ubicacion.cargoAdicional, evento.ofreceSede ? 'Costo sede' : 'Transporte a dirección ingresada')
-        console.log(precioTotal + 'ubicacion')
         localStorage.setItem('totalPrecio', precioTotal);
         localStorage.setItem('seleccionesUsuario', JSON.stringify(seleccionUsuario));
         let tituloModal = document.getElementById("tituloModal");
@@ -299,9 +283,10 @@ function cotizarEvento() {
 }
 
 function abrirToast() {
-    console.log('eventos')
     if (!validarInputs()) {
         const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample);
+        let toastText = document.getElementById("textotoast");
+        toastText.innerText = "Debes llenar todos los campos";
         toastBootstrap.show();
     }
 }
@@ -312,4 +297,36 @@ function resetDatos() {
     precioTotal = 0;
     seleccionUsuario = [];
     detallePrecio = [];
+}
+
+function mostrarModalContacto() {
+    modalCotizacion.hide();
+    modalContacto.show();
+}
+
+function enviarDatos() {
+    let nombre = document.getElementById("nombre").value;
+    let email = document.getElementById("email").value;
+    let telefono = document.getElementById("telefono").value;
+    let comentario = document.getElementById("comentario").value;
+    let datos = {
+        nombre: nombre,
+        email: email,
+        telefono: telefono,
+        comentario: comentario
+    };
+    const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample);
+    let toastText = document.getElementById("textotoast");
+    toastText.innerText = "Te contactaremos tan pronto como sea posible"
+    let datosEnviados = false;
+    fetch("https://jsonplaceholder.typicode.com/juan-cueva/fake-api/posts", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(datos)
+    })
+        .then(data => data !== null || data !== undefined ? toastBootstrap.show() : toastText.innerText = "");
+    modalContacto.hide();
+    resetDatos();
 }

@@ -60,13 +60,15 @@
             <button type="button" id="btncotizar" class="btn btn-primary btn-lg"
                 onclick="cotizarEvento()">Cotizar</button>
         </section>
+        <!-- Modal cotizacion  -->
         <div class="modal fade" id="modalCotizacion" tabindex="-1" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="tituloModal"></h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="resetDatos()"
+                            aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <table class="table">
@@ -83,19 +85,55 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
                             onclick="resetDatos()">Cerrar</button>
-                        <button type="button" class="btn btn-primary">Contáctanos</button>
+                        <button type="button" class="btn btn-primary"
+                            onclick="mostrarModalContacto()">Contáctanos</button>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- Modal contacto  -->
+        <div class="modal fade" id="modalContacto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5">¿Listo para planificar tu evento? Contáctanos</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="resetDatos()" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="nombre" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="nombre">
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Correo electrónico</label>
+                            <input type="email" class="form-control" id="email">
+                        </div>
+                        <div class="mb-3">
+                            <label for="telefono" class="form-label">Teléfono</label>
+                            <input type="tel" class="form-control" id="telefono">
+                        </div>
+                        <div class="mb-3">
+                            <label for="comentario" class="form-label">Comentario</label>
+                            <textarea class="form-control" id="comentario" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                            onclick="resetDatos()">Cerrar</button>
+                        <button type="button" class="btn btn-primary"
+                            onclick="enviarDatos()">Enviar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Toast -->
         <div class="toast-container position-fixed bottom-0 end-0 p-3">
             <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
                 <div class="toast-header">
                     <strong id="titulo-toast" class="me-auto">Alerta</strong>
                     <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
                 </div>
-                <div class="toast-body">
-                    Debes llenar todos los campos
+                <div class="toast-body" id="textotoast">
                 </div>
             </div>
         </div>
